@@ -1,9 +1,10 @@
 <template>
+  <v-layout id="baseHeader">
     <v-app-bar
       absolute
       color="#fcb69f"
-      dark
-      src="https://picsum.photos/1920/1080?random"
+      src="@/assets/base.jpg"
+      
     >
       <template v-slot:img="{ props }">
         <v-img
@@ -15,9 +16,10 @@
       <v-toolbar-title>Start in IT</v-toolbar-title>
 
       <v-spacer></v-spacer>
-
+      <v-btn rounded v-on:click="login">Sing in</v-btn>
       
     </v-app-bar>
+  </v-layout>
 </template>
 
 
@@ -26,5 +28,14 @@ import { Component,Vue, Watch} from 'vue-property-decorator';
 @Component({
 })
 export default class BaseHeader extends Vue {
+  private login():void{
+    this.$router.push({name: 'SingIn'});
+  }
 }
 </script>
+<style scoped>
+  #baseHeader{
+    max-height: 80px;
+    
+  }
+</style>
