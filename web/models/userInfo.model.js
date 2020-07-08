@@ -1,10 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
     const UserInfo = sequelize.define("usersInfo", {
       id: {
-        type: Sequelize.INTEGER
-      },
-      userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
       },
       phoneNumber:{
         type: Sequelize.STRING
@@ -12,10 +12,10 @@ module.exports = (sequelize, Sequelize) => {
       dateOfBirth:{
         type: Sequelize.DATE
       },
-      city:{
+      country:{
         type: Sequelize.STRING
       },
-      country:{
+      city:{
         type: Sequelize.STRING
       },
       skype:{

@@ -2,19 +2,19 @@ module.exports = (sequelize, Sequelize) => {
     const Test = sequelize.define("tests", {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       description: {
         type: Sequelize.STRING
       },
       photo:{
         type: Sequelize.STRING
-      },
-      levelId: {
-        type: Sequelize.INTEGER,
       },
     });
   

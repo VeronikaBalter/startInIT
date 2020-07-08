@@ -2,10 +2,13 @@ module.exports = (sequelize, Sequelize) => {
     const Question = sequelize.define("questions", {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
       },
       testId:{
         type: Sequelize.INTEGER,
+        allowNull: false
       },
       text: {
         type: Sequelize.STRING

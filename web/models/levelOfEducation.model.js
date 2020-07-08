@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Skill = sequelize.define("skils", {
+    const LevelOfEducation = sequelize.define("levelsOfEducation", {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -10,7 +10,9 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false
       }
+
+      
     });
   
-    return Skill;
-};
+    return LevelOfEducation;
+  };

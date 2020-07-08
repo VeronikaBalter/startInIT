@@ -2,10 +2,13 @@ module.exports = (sequelize, Sequelize) => {
     const TypeOfEmployment = sequelize.define("typesOfEmployment", {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       }
     });
   

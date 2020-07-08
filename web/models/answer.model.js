@@ -1,11 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    const Question = sequelize.define("questions", {
+    const Answer = sequelize.define("answers", {
       id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
-      },
-      questionId: {
-        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
       },
       text: {
         type: Sequelize.STRING
@@ -15,5 +14,5 @@ module.exports = (sequelize, Sequelize) => {
       },
     });
   
-    return Question;
+    return Answer;
 };
