@@ -10,6 +10,13 @@ import { Component,Vue, Watch} from 'vue-property-decorator';
 
 import baseHeader from "./components/layouts/BaseHeader.vue"
 import hello from "./components/HelloWorld.vue"
+
+Component.registerHooks([
+    'beforeRouteEnter',
+    'beforeRouteLeave',
+    'beforeRouteUpdate', // for vue-router 2.2+
+]);
+
 @Component({
   components: {
     baseHeader,

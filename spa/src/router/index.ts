@@ -11,9 +11,20 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/singIn',
+    path: '/login',
     name: 'SingIn',
+    meta: {
+      public: true,
+    },
     component: () => import('../views/SingIn.vue')
+  },
+  {
+    path: '/registration',
+    name: 'SingUp',
+    meta: {
+      public: true,
+    },
+    component: () => import('../views/SingUp.vue')
   }
 ]
 

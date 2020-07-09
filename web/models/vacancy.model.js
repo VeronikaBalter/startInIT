@@ -6,14 +6,10 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false
       },
-      companyId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      typeOfEmploymentId:{
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
+      // name:{
+      //   type: Sequelize.STRING,
+      //   allowNull: false,  
+      // },
       about:{
         type: Sequelize.STRING(1000),
         allowNull: false,  

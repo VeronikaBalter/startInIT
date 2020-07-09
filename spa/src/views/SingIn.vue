@@ -12,37 +12,25 @@
       </v-card>
     </v-flex>
     <v-flex md8 xs12>
-      <v-card class="singIn_UP">
-        <h1 class="text-left">{{title}}</h1>
-        <h3 class="pb-3 text-left">{{description}}
+      <v-card class="singIn">
+        <h1 class="text-left">Sing In</h1>
+        <h3 class="pb-3 text-left">If you do not have an account yet
           <v-btn 
             small 
-            v-on:click="isSingIn = !isSingIn" 
-            class="cyan--text">{{title}}</v-btn>
+            v-on:click="redirect" 
+            class="cyan--text">Sing Up</v-btn>
         </h3>
-        <v-text-field 
+        <v-text-field v-model="email"
           outlined 
           label="First name and last name"
           append-icon="mdi-account-outline"
         ></v-text-field>
-        <v-text-field 
-          v-if="!isSingIn"
-          outlined 
-          label="Email"
-          append-icon="mdi-at"
-        ></v-text-field>
-        <v-text-field 
-          v-if="!isSingIn"
+        <v-text-field v-model="password"
           outlined 
           label="Password"
           append-icon="mdi-lock-outline"
         ></v-text-field>
-        <v-text-field 
-          outlined 
-          label="Repeat password"
-          append-icon="mdi-lock-outline"
-        ></v-text-field>
-        <v-btn color="success">{{title}}</v-btn>
+        <v-btn color="success" v-on:click="login">Sing In</v-btn>
       </v-card>
     </v-flex>
   </v-layout>
@@ -51,29 +39,43 @@
 <script lang="ts">
  
 
-import { Component,Vue, Watch} from 'vue-property-decorator';
+import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
+import axios from 'axios';
 
 @Component({
 })
-export default class App extends Vue {
-  private isSingIn = false;
-  get title(): string{
-    return this.isSingIn?"Sing In":"Sing UP";
+export default class SingInSingUp extends Vue {
+  public email = '';
+  public password = '';
+   
+  private redirect(){
+    this.$router.push({name: 'SingUp'});
   }
-  get description(): string{
-    return this.isSingIn?"If you do not have an account yet ":"If you already have an account ";
+  private login(): void {
+    axios.post('/api/auth/signin', {
+        email: this.email,
+        password: this.password
+      })
+      .then((response: any) => {
+        if (response.data.accessToken) {
+          localStorage.setItem('user', JSON.stringify(response.data));
+        }
+
+        return response.data;
+      });
   }
+
 }
 </script>
 <style scoped >
 #singIn{
   margin:0 10% 0 10%;
 }
-.singIn_UP{
+.singIn{
   padding: 20px;
   height: 600px;
 }
 .welcom{
-  padding-top: 200px;
+  padding: 200px 10px 0 10px;
 }
 </style>

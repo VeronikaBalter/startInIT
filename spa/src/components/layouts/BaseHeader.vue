@@ -16,6 +16,7 @@
       <v-toolbar-title>Start in IT</v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <v-btn rounded v-on:click="registration">Sing up</v-btn>
       <v-btn rounded v-on:click="login">Sing in</v-btn>
       
     </v-app-bar>
@@ -30,6 +31,12 @@ import { Component,Vue, Watch} from 'vue-property-decorator';
 export default class BaseHeader extends Vue {
   private login():void{
     this.$router.push({name: 'SingIn'});
+  }
+  private registration():void{
+    this.$router.push({name: 'SingUp'});
+  }
+  private logout(): void{
+    localStorage.removeItem('user');
   }
 }
 </script>

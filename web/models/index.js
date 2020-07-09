@@ -32,7 +32,7 @@ db.language = require("../models/language.model.js")(sequelize, Sequelize);
 db.level = require("../models/level.model.js")(sequelize, Sequelize);
 db.question = require("../models/question.model.js")(sequelize, Sequelize);
 db.answer = require("../models/answer.model.js")(sequelize, Sequelize);
-db.company = require("../models/answer.model.js")(sequelize, Sequelize);
+db.company = require("../models/company.model.js")(sequelize, Sequelize);
 db.resume = require("../models/resume.model.js")(sequelize, Sequelize);
 db.education = require("../models/education.model.js")(sequelize, Sequelize);
 db.levelOfEducation = require("../models/levelOfEducation.model.js")(sequelize, Sequelize);
@@ -57,12 +57,20 @@ db.test.belongsTo(db.language, {
     foreignKey: "languageId",
     as: "language",
 });
+db.user.hasOne(db.test, {as: 'test', foreignKey : 'authorId'});
 
 db.level.hasMany(db.test, { as: "test" });
 db.test.belongsTo(db.level, {
     foreignKey: "levelId",
     as: "level",
 });
+
+db.level.hasMany(db.resume, { as: "resume" });
+db.resume.belongsTo(db.level, {
+    foreignKey: "levelId",
+    as: "level",
+});
+
 
 db.test.hasMany(db.question, { as: "question" });
 db.question.belongsTo(db.test, {
@@ -76,20 +84,11 @@ db.answer.belongsTo(db.question, {
     as: "question",
 }); 
 
-db.company.belongsTo(db.user, {
-    foreignKey: "ownerId",
-    as: "user",
-}); 
+db.user.hasOne(db.company, {as: 'company', foreignKey : 'ownerId'});
 
-db.userInfo.belongsTo(db.user, {
-    foreignKey: "userId",
-    as: "user",
-}); 
+db.user.hasOne(db.userInfo, {as: 'userInfo', foreignKey : 'userId'});
 
-db.resume.belongsTo(db.user, {
-    foreignKey: "userId",
-    as: "user",
-}); 
+db.user.hasOne(db.resume, {as: 'resume', foreignKey : 'userId'});
 
 db.education.belongsToMany(db.resume, {
     through: "resumeEducation",
@@ -104,8 +103,8 @@ db.resume.belongsToMany(db.education, {
 
 db.levelOfEducation.hasMany(db.education, { as: "education" });
 db.education.belongsTo(db.levelOfEducation, {
-    foreignKey: "levelOfEducationId",
-    as: "levelOfEducation",
+    foreignKey: "levelsOfEducationId",
+    as: "levelsOfEducation",
 }); 
 
 db.skill.belongsToMany(db.test, {
@@ -136,21 +135,22 @@ db.workExperience.belongsToMany(db.resume, {
     otherKey: "resumeId"
 });
 db.resume.belongsToMany(db.workExperience, {
-    through: "resumeWorkExperiencen",
+    through: "resumeWorkExperience",
     foreignKey: "resumeId",
     otherKey: "workExperienceId"
 });
 
-db.typeOfEmployment.hasMany(db.vacancy, { as: "education" });
+db.typeOfEmployment.hasMany(db.vacancy, { as: "vacancy" });
 db.vacancy.belongsTo(db.typeOfEmployment, {
-    foreignKey: "typeOfEmploymentId",
+    foreignKey: "typesOfEmploymentId",
     as: "typeOfEmployment",
 });    
-
-db.vacancy.belongsTo(db.company, {
-    foreignKey: "companyId",
-    as: "company",
-});
+db.typeOfEmployment.hasMany(db.resume, { as: "resume" });
+db.resume.belongsTo(db.typeOfEmployment, {
+    foreignKey: "typesOfEmploymentId",
+    as: "typeOfEmployment",
+});    
+db.company.hasOne(db.vacancy, {as: 'vacancy', foreignKey : 'companyId'});
 
 db.ROLES = ["user", "admin"];
 // db.LANGUAGES = ["English", "Russian", "Ukrainian", "French", "Spanish", "Arab", "Portuguese", "German", "Chinese"];
