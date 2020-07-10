@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -8,7 +7,7 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/login',
@@ -25,6 +24,14 @@ Vue.use(VueRouter)
       public: true,
     },
     component: () => import('../views/SingUp.vue')
+  },
+  {
+    path: '/vacancies',
+    name: 'Vacancies',
+    meta: {
+      public: true,
+    },
+    component: () => import('../views/Vacancies.vue')
   }
 ]
 

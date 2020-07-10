@@ -6,10 +6,6 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false
       },
-      // name:{
-      //   type: Sequelize.STRING,
-      //   allowNull: false,  
-      // },
       about:{
         type: Sequelize.STRING(1000),
         allowNull: false,  

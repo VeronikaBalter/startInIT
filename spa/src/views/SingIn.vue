@@ -52,17 +52,7 @@ export default class SingInSingUp extends Vue {
     this.$router.push({name: 'SingUp'});
   }
   private login(): void {
-    axios.post('/api/auth/signin', {
-        email: this.email,
-        password: this.password
-      })
-      .then((response: any) => {
-        if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        }
-
-        return response.data;
-      });
+    
   }
 
 }

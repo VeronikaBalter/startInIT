@@ -92,7 +92,7 @@ export default class SingInSingUp extends Vue {
   
 
   private register(): void {
-    axios.post('/api/auth/signup', this.user);
+    
   }
 }
 </script>

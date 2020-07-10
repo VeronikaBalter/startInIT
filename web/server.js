@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+var proxy = require('express-http-proxy');
 
 const app = express();
 
@@ -34,15 +35,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   });
 // }
 
-//simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-});
-require('./routes/auth.routes')(app);
-require('./routes/user.routes')(app);
+
+//require('./routes/auth.routes')(app);
+//require('./routes/user.routes')(app);
 require('./routes/vacancy.routes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
+app.use('/', proxy('http://localhost:8080'));
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
