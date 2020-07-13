@@ -32,6 +32,30 @@ Vue.use(VueRouter)
       public: true,
     },
     component: () => import('../views/Vacancies.vue')
+  },
+  {
+    path: '/resumes',
+    name: 'Resumes',
+    meta: {
+      public: true,
+    },
+    component: () => import('../views/Resumes.vue')
+  },
+  {
+    path: '/createVacancy',
+    name: 'CreateVacancy',
+    meta: {
+      public: true,
+    },
+    component: () => import('../views/CreateVacancy.vue')
+  },
+  {
+    path: '/createResume',
+    name: 'CreateResume',
+    meta: {
+      public: true,
+    },
+    component: () => import('../views/CreateResume.vue')
   }
 ]
 

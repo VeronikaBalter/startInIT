@@ -2,15 +2,10 @@
   <v-card
     id="vacancy"
     shaped
-    dark="false"
     color="white"
+    class="black--text card"
     >
-      <v-card-text><h2>Название вакансии</h2></v-card-text>
-      <v-card-subtitle>Зп От - До 
-        Имя компаниии 
-        Город
-      </v-card-subtitle>
-      <v-card-text>dsfsdfsdffffffffffffffff dsfsdfsdffffffffffffffffsfdgfds sfdgsdfgs dgsdfg</v-card-text>
+    выаыва
   </v-card>
 </template>
 

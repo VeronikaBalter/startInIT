@@ -5,5 +5,8 @@ export default class VacancyModel {
     public about = ''
     public salaryStart = 0;
     public salaryEnd = 0;
-    public typesOfEmployment = new TypesOfEmployment();
+    public currencyId = 0;
+    public interviewSalary =false;
+    public typeOfEmploymentId = 0;
+    public skills =[];
 }

@@ -3,11 +3,17 @@
       <vacancy >
       </vacancy>
       <vacancy class="mt-3">
-      </vacancy>
       <!-- <vacancy
         v-for="vacancy in vacancies"
         :key="vacancy.id">
       </vacancy> -->
+      </vacancy>
+        <!-- <v-pagination
+          v-model="page"
+          :length="15"
+          :total-visible="10"
+        ></v-pagination> -->
+      
   </v-container>
 </template>
 
@@ -27,7 +33,7 @@ import VacancyModel from '../model/VacancyModel'
 export default class Vacancies extends Vue {
   private vacancies: VacancyModel[] = [];
   private async created() {
-    await axios.get('api/getVacancies').then((res)=>{
+    await axios.get('api/getVacancies',{}).then((res)=>{
         debugger
     }).catch((error)=>{
         //debugger
