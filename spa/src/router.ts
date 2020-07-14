@@ -7,7 +7,7 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue')
+    component: () => import('@/views/Home.vue')
   },
   {
     path: '/login',
@@ -15,7 +15,7 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('../views/SingIn.vue')
+    component: () => import('@/views/SingIn.vue')
   },
   {
     path: '/registration',
@@ -23,7 +23,7 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('../views/SingUp.vue')
+    component: () => import('@/views/SingUp.vue')
   },
   {
     path: '/vacancies',
@@ -31,7 +31,7 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('../views/Vacancies.vue')
+    component: () => import('@/views/Vacancies.vue')
   },
   {
     path: '/resumes',
@@ -39,7 +39,7 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('../views/Resumes.vue')
+    component: () => import('@/views/Resumes.vue')
   },
   {
     path: '/createVacancy',
@@ -47,7 +47,7 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('../views/CreateVacancy.vue')
+    component: () => import('@/views/create/CreateVacancy.vue')
   },
   {
     path: '/createResume',
@@ -55,7 +55,15 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('../views/CreateResume.vue')
+    component: () => import('@/views/create/CreateResume.vue')
+  },
+  {
+    path: '/createCompany',
+    name: 'CreateCompany',
+    meta: {
+      public: true,
+    },
+    component: () => import('@/views/create/CreateCompany.vue')
   }
 ]
 
