@@ -7,6 +7,7 @@
         :lazy-validation="false"
       >
         <h1 class="text-left pb-4">Create company</h1>
+        <file-preview/>
         <v-text-field v-model="company.name"
           outlined 
           label="Job title"
@@ -19,55 +20,50 @@
           :rules="validation.about"
           append-icon="mdi-pen"
         ></v-textarea>
-        <!-- <v-flex row  class="ml-1">
-        <v-text-field 
-            v-if="!company.interviewSalary"
-            v-model="company.salaryStart"
+        <v-text-field v-model="company.country"
           outlined 
-          label="Salary from"
-          class="pr-2"
-          append-icon="mdi-cash"
+          label="Country"
+          :rules="validation.country"
+          append-icon="mdi-map-marker"
         ></v-text-field>
-        <v-text-field 
-            v-if="!company.interviewSalary"
-            v-model="company.salaryEnd"
+        <v-text-field v-model="company.city"
           outlined 
-          label="Salary up to"
-          append-icon="mdi-cash-multiple"
+          label="City"
+          :rules="validation.city" 
+          append-icon="mdi-map-marker"
         ></v-text-field>
-        <v-autocomplete 
-            v-if="!company.interviewSalary"
-            v-model="this.company.currencyId"
-            :items="currencies"
-            item-text="value"
-            item-value="id"
-            outlined
-            label="Currency"
-            class="currency"
-        ></v-autocomplete>
-        <v-switch v-model="company.interviewSalary" class="mx-2" label="Interview salary"></v-switch>
+        <v-text-field v-model="company.street"
+          outlined 
+          label="Street"
+          append-icon="mdi-home-modern"
+        ></v-text-field>
+        <v-text-field v-model="company.house"
+          outlined 
+          label="House"
+          append-icon="mdi-home-modern"
+        ></v-text-field>
+        <v-text-field v-model="company.email"
+          outlined 
+          label="Email"
+          :rules="validation.email"
+          append-icon="mdi-at"
+        ></v-text-field>
+        <v-flex row  class="ml-1">
+          <v-text-field 
+            v-model="company.stateStart"
+            outlined 
+            label="State from"
+            class="pr-2"
+            append-icon="mdi-account"
+          ></v-text-field>
+          <v-text-field 
+            v-model="company.stateEnd"
+            outlined 
+            label="State up to"
+            append-icon="mdi-account"
+          ></v-text-field>
         </v-flex>
-        <v-autocomplete
-            v-model="company.typeOfEmploymentId "
-            :items="typesOfEmployment"
-            :rules="validation.type"
-            item-text="value"
-            item-value="id"
-            outlined
-            label="Type of employment"
-        ></v-autocomplete>
-        <v-autocomplete
-            v-model="company.skills"
-            :items="skills"
-            :rules="validation.skills"
-            item-text="value"
-            item-value="id"
-            outlined
-            chips
-            label="Skills"
-            multiple
-          ></v-autocomplete>
-        <v-btn :disabled="!valid" color="success" v-on:click="send">Send</v-btn> -->
+        <v-btn :disabled="!valid" color="success" v-on:click="send">Send</v-btn> 
         </v-form>
       </v-card>
   </v-container>
@@ -82,8 +78,11 @@ import CompanyModel from '@/model/CompanyModel'
 import currenciesList from '@/const/currencies'
 import typesOfEmploymentList from '@/const/typesOfEmployment'
 import skillsList from '@/const/skills'
-
+import filePreview from '@/components/FilePreview.vue'
 @Component({
+  components:{
+    filePreview
+  }
 })
 export default class CreateCompany extends Vue {
   private company: CompanyModel = new CompanyModel;
@@ -92,19 +91,22 @@ export default class CreateCompany extends Vue {
   private skills = [];
   private valid = true;
   private validation = {
-    title:[ (v: string) => !!v || 'Title is required'],
-    about:[ (v: string) => !!v || 'About is required',
+    title:[(v: string) => !!v || 'Title is required'],
+    about:[(v: string) => !!v || 'About is required',
       (v: string) => (v && v.length > 99) || 'About must be greater than 100 characters',],
-    type:[ (v: string) => !!v || 'Type of employment is required'],
+    type:[(v: string) => !!v || 'Type of employment is required'],
+    city:[(v: string) => !!v || 'City is required'],
+    country:[(v: string) => !!v || 'Country is required'],
+    email:[(v: string) => !!v || 'E-mail is required',
+        (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
   }
   created(){
-      this.currencies = currenciesList;
-      this.typesOfEmployment = typesOfEmploymentList;
-      this.skills = skillsList;
+    this.currencies = currenciesList;
+    this.typesOfEmployment = typesOfEmploymentList;
+    this.skills = skillsList;
   }
 
   private async send(): Promise<void>{
-      var f = this.company;
       debugger
   } 
 }

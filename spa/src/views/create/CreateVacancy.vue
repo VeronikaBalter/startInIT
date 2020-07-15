@@ -105,8 +105,7 @@ export default class CreateVacancy extends Vue {
   }
 
   private async send(): Promise<void>{
-      var f = this.vacancy;
-      debugger
+    debugger
   } 
 }
 </script>

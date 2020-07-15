@@ -64,7 +64,19 @@ Vue.use(VueRouter)
       public: true,
     },
     component: () => import('@/views/create/CreateCompany.vue')
-  }
+  },
+  {
+    path: '*', 
+    redirect: '/404'
+  },
+  {
+    path: '/404',
+    name: 'PageNotFound',
+    meta: {
+        public: true,
+    },
+    component: () => import('./views/PageNotFound.vue'),
+  },
 ]
 
 const router = new VueRouter({

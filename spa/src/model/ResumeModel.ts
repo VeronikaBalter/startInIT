@@ -12,7 +12,7 @@ export default class ResumeModel {
     public levelId = 0;
     public skills = [];
     public userId = [];
-    public works: WorksExperiencModel[]=[];
+    public works: WorksExperiencModel[]=[new WorksExperiencModel()];
     public languages: LanguageModel[]= [new LanguageModel()];
-    public education: EducationModel[] = [];
+    public education: EducationModel[] = [new EducationModel()];
 }

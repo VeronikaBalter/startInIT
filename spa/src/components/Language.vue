@@ -31,6 +31,7 @@ import LanguageModel from '../model/LanguageModel'
 })
 export default class Language extends Vue {
     @Prop() private language:LanguageModel = new LanguageModel();
+    @Prop()
     private languages = [];
     private levels = []; 
 
@@ -59,5 +60,3 @@ export default class Language extends Vue {
   
 }
 </script>
-<style scoped >
-</style>

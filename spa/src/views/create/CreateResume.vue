@@ -7,13 +7,15 @@
         :lazy-validation="false"
       >
         <h1 class="text-left pb-4">Create resume</h1>
-        <v-text-field v-model="resume.name"
+        <v-text-field 
+          v-model="resume.name"
           outlined 
           label="Job title"
           :rules="validation.title"
           append-icon="mdi-pencil"
         ></v-text-field>
-        <v-textarea v-model="resume.about"
+        <v-textarea 
+          v-model="resume.about"
           outlined 
           label="About"
           :rules="validation.about"
@@ -21,7 +23,7 @@
         ></v-textarea>
         <v-flex row  class="ml-1">
         <v-text-field 
-            v-model="resume.salary"
+          v-model="resume.salary"
           outlined 
           label="Salary from"
           class="pr-2"
@@ -67,19 +69,32 @@
             multiple
           ></v-autocomplete>
         <v-flex row class="px-4">
-            <h3>Languages: </h3>
-            <v-btn class="mr-13" color="success" dark small absolute right fab v-on:click="addLanguages">
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
-            <v-btn color="error" dark small absolute right fab v-on:click="delLanguages">
-                <v-icon>mdi-minus</v-icon>
-            </v-btn>
+          <h3>Languages: </h3>
+          <v-btn class="mr-13" color="success" dark small absolute right fab v-on:click="addLanguages">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn color="error" dark small absolute right fab v-on:click="delLanguages">
+            <v-icon>mdi-minus</v-icon>
+          </v-btn>
         </v-flex>
         <language 
             v-for="lang of resume.languages" 
             :key="lang.id" 
             :language="lang"
             @lang="langChanged" />
+        <v-flex row class="px-4">
+          <h3>Education: </h3>
+          <v-btn class="mr-13" color="success" dark small absolute right fab v-on:click="addEducation">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn color="error" dark small absolute right fab v-on:click="delEducation">
+            <v-icon>mdi-minus</v-icon>
+          </v-btn>
+        </v-flex>
+        <!-- <education 
+            v-for="education of resume.education" 
+            :key="education.id" 
+            :language="education"/> -->
         <v-btn :disabled="!valid" color="success" v-on:click="send">Send</v-btn>
         </v-form>
       </v-card>
@@ -98,19 +113,22 @@ import skillsList from '@/const/skills'
 import levelsList from '@/const/levels'
 import LanguageModel from '@/model/LanguageModel'
 import language from '@/components/Language.vue'
+import EducationModel from '@/model/EducationModel'
+import education from '@/components/Education.vue'
 
 @Component({
     components:{
-        language
+      language,
+      education
     }
 })
 export default class CreateResume extends Vue {
-    
   private resume: ResumeModel = new ResumeModel;
   private currencies = [];
   private typesOfEmployment = [];
   private skills = [];
   private levels = []
+
   private valid =true;
   private validation = {
     title:[ (v: string) => !!v || 'Title is required'],
@@ -118,6 +136,7 @@ export default class CreateResume extends Vue {
     type:[ (v: string) => !!v || 'Type of employment is required'],
     level:[ (v: string) => !!v || 'Level is required'],
   }
+
   created(){
       this.currencies = currenciesList;
       this.typesOfEmployment = typesOfEmploymentList;
@@ -138,6 +157,13 @@ export default class CreateResume extends Vue {
     //this.resume.languages[value.id-1].nameId = value.nameId;
     //this.resume.languages[value.id-1].levelId = value.levelId;
     debugger
+  }
+  private addEducation(){
+    this.resume.education.push(new EducationModel());
+  }
+  private delEducation(){
+    if(this.resume.education.length>1)
+      this.resume.education.pop();
   }
 
   private async send(): Promise<void>{
