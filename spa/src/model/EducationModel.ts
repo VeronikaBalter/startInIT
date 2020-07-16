@@ -1,3 +1,4 @@
+import moment from 'moment'
 export default class EducationModel {
     public id = 0;
     public name = '';

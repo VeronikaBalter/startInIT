@@ -30,8 +30,8 @@ import LanguageModel from '../model/LanguageModel'
 @Component({
 })
 export default class Language extends Vue {
-    @Prop() private language:LanguageModel = new LanguageModel();
-    @Prop()
+    @Prop() private language!:LanguageModel;
+    @Prop() private index!:number;
     private languages = [];
     private levels = []; 
 
@@ -46,7 +46,7 @@ export default class Language extends Vue {
 
     set langNameId(value: number){
         this.language.nameId = value;
-        this.$emit('lang',this.language)
+        this.$emit('lang',this.language,this.index)
     }
 
     get langLevelId(): number{
@@ -55,7 +55,7 @@ export default class Language extends Vue {
 
     set langLevelId(value: number){
         this.language.levelId = value;
-        this.$emit('lang',this.language)
+        this.$emit('lang',this.language,this.index)
     }
   
 }

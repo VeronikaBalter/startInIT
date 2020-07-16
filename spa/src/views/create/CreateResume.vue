@@ -78,9 +78,10 @@
           </v-btn>
         </v-flex>
         <language 
-            v-for="lang of resume.languages" 
-            :key="lang.id" 
+            v-for="(lang, index) in resume.languages" 
+            :key="'languag'+index" 
             :language="lang"
+            :index ="index+1"
             @lang="langChanged" />
         <v-flex row class="px-4">
           <h3>Education: </h3>
@@ -91,10 +92,27 @@
             <v-icon>mdi-minus</v-icon>
           </v-btn>
         </v-flex>
-        <!-- <education 
-            v-for="education of resume.education" 
-            :key="education.id" 
-            :language="education"/> -->
+        <education 
+            v-for="(education, index) of resume.education" 
+            :key="'education'+index+1" 
+            :education="education"
+            :index="index"
+            @education="educationChanged"/>
+        <v-flex row class="px-4">
+          <h3>Works experience: </h3>
+          <v-btn class="mr-13" color="success" dark small absolute right fab v-on:click="addWork">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn color="error" dark small absolute right fab v-on:click="delWork">
+            <v-icon>mdi-minus</v-icon>
+          </v-btn>
+        </v-flex>
+        <education 
+            v-for="(workExperience, index) of resume.works" 
+            :key="'work'+index" 
+            :workExperience="workExperience"
+            :index="index"
+            @workExperience="workChanged"/>
         <v-btn :disabled="!valid" color="success" v-on:click="send">Send</v-btn>
         </v-form>
       </v-card>
@@ -115,11 +133,14 @@ import LanguageModel from '@/model/LanguageModel'
 import language from '@/components/Language.vue'
 import EducationModel from '@/model/EducationModel'
 import education from '@/components/Education.vue'
+import WorkExperienceModel from '@/model/WorkExperienceModel'
+import workExperience from '@/components/WorkExperience.vue'
 
 @Component({
     components:{
       language,
-      education
+      education,
+      workExperience
     }
 })
 export default class CreateResume extends Vue {
@@ -144,6 +165,9 @@ export default class CreateResume extends Vue {
       this.skills = skillsList;
       this.levels = levelsList;
   }
+  get languages(){
+    return this.resume.languages;
+  }
   private addLanguages(){
     if(this.resume.languages.length<8)
       this.resume.languages.push(new LanguageModel());
@@ -152,12 +176,10 @@ export default class CreateResume extends Vue {
     if(this.resume.languages.length>1)
       this.resume.languages.pop();
   }
-  private langChanged(value: LanguageModel){
-    debugger
-    //this.resume.languages[value.id-1].nameId = value.nameId;
-    //this.resume.languages[value.id-1].levelId = value.levelId;
-    debugger
+  private langChanged(value: LanguageModel, index: number){
+    this.resume.languages[index] = value;
   }
+
   private addEducation(){
     this.resume.education.push(new EducationModel());
   }
@@ -165,7 +187,20 @@ export default class CreateResume extends Vue {
     if(this.resume.education.length>1)
       this.resume.education.pop();
   }
+  private educationChanged(value: EducationModel, index: number){
+    this.resume.education[index] = value;
+  }
 
+  private addWork(){
+    this.resume.education.push(new EducationModel());
+  }
+  private delWork(){
+    if(this.resume.education.length>1)
+      this.resume.education.pop();
+  }
+  private workChanged(value: WorkExperienceModel, index: number){
+    this.resume.works[index] = value;
+  }
   private async send(): Promise<void>{
       var f = this.resume;
       debugger

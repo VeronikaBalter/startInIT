@@ -1,4 +1,4 @@
-export default class WorksExperiencModel {
+export default class WorkExperienceModel {
     public id = 0;
     public name = '';
     public country = '';
@@ -8,5 +8,4 @@ export default class WorksExperiencModel {
     public dateStart = new Date();
     public dateEnd = new Date();
     public untilNow = false;
-    public levelOfEducationId = 0;
 }
