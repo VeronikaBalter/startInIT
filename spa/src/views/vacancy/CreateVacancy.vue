@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <v-card class="px-6 py-7">
+      <v-card v-if="!showSuccessfulUpdate" class="px-6 py-7">
         <v-form
         ref="form"
         v-model="valid"
@@ -48,7 +48,7 @@
         <v-switch v-model="vacancy.interviewSalary" class="mx-2" label="Interview salary"></v-switch>
         </v-flex>
         <v-autocomplete
-            v-model="vacancy.typeOfEmploymentId "
+            v-model="vacancy.typesOfEmploymentId "
             :items="typesOfEmployment"
             :rules="validation.type"
             item-text="value"
@@ -70,6 +70,9 @@
         <v-btn :disabled="!valid" color="success" v-on:click="send">Send</v-btn>
         </v-form>
       </v-card>
+      <successful-update
+        v-else
+        name ="vacancy"/>
   </v-container>
 </template>
 
@@ -78,7 +81,7 @@
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
 import axios from 'axios';
 import vacancy from '@/components/Vacancy.vue'
-import VacancyModel from '@/model/VacancyModel'
+import VacancyModel from '@/models/VacancyModel'
 import currenciesList from '@/const/currencies'
 import typesOfEmploymentList from '@/const/typesOfEmployment'
 import skillsList from '@/const/skills'
@@ -86,6 +89,7 @@ import skillsList from '@/const/skills'
 @Component({
 })
 export default class CreateVacancy extends Vue {
+  private showSuccessfulUpdate = false;
   private vacancy: VacancyModel = new VacancyModel;
   private currencies = [];
   private typesOfEmployment = [];
@@ -105,7 +109,16 @@ export default class CreateVacancy extends Vue {
   }
 
   private async send(): Promise<void>{
-    debugger
+    //to do
+    this.vacancy.companyId =1;
+    await axios.post('api/addVacancy',this.vacancy)
+      .then((res)=>{
+        this.showSuccessfulUpdate = true;
+      })
+      .catch((error)=>{
+        console.log(error);
+        Vue.toasted.error('Error while adding vacancy');
+      })
   } 
 }
 </script>

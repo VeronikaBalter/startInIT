@@ -107,7 +107,7 @@
             <v-icon>mdi-minus</v-icon>
           </v-btn>
         </v-flex>
-        <education 
+        <workExperience 
             v-for="(workExperience, index) of resume.works" 
             :key="'work'+index" 
             :workExperience="workExperience"
@@ -124,17 +124,17 @@
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
 import axios from 'axios';
 import resume from '@/components/resume.vue'
-import ResumeModel from '@/model/ResumeModel'
+import ResumeModel from '@/models/resume/ResumeModel'
 import currenciesList from '@/const/currencies'
 import typesOfEmploymentList from '@/const/typesOfEmployment'
 import skillsList from '@/const/skills'
 import levelsList from '@/const/levels'
-import LanguageModel from '@/model/LanguageModel'
+import LanguageModel from '@/models/LanguageModel'
 import language from '@/components/Language.vue'
-import EducationModel from '@/model/EducationModel'
-import education from '@/components/Education.vue'
-import WorkExperienceModel from '@/model/WorkExperienceModel'
-import workExperience from '@/components/WorkExperience.vue'
+import EducationModel from '@/models/resume/EducationModel'
+import education from '@/components/resume/Education.vue'
+import WorkExperienceModel from '@/models/resume/WorkExperienceModel'
+import workExperience from '@/components/resume/WorkExperience.vue'
 
 @Component({
     components:{
@@ -192,11 +192,11 @@ export default class CreateResume extends Vue {
   }
 
   private addWork(){
-    this.resume.education.push(new EducationModel());
+    this.resume.works.push(new WorkExperienceModel());
   }
   private delWork(){
-    if(this.resume.education.length>1)
-      this.resume.education.pop();
+    if(this.resume.works.length>1)
+      this.resume.works.pop();
   }
   private workChanged(value: WorkExperienceModel, index: number){
     this.resume.works[index] = value;

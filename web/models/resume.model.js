@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false
       },
+      name:{
+        type: Sequelize.STRING  
+      },
       typeOfEmploymentId:{
         type: Sequelize.INTEGER,
         allowNull: false
@@ -15,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       salary:{
         type: Sequelize.INTEGER
+      },
+      isModerationPassed:{
+        type: Sequelize.BOOLEAN
       }
 
       

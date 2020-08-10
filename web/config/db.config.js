@@ -4,6 +4,7 @@ module.exports = {
     PASSWORD: "12345678",
     DB: "startInIT",
     dialect: "mysql",
+    
     pool: {
       max: 5,
       min: 0,

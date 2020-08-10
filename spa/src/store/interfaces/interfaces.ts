@@ -1,9 +1,13 @@
+import UserModel from '@/models/user/UserModel'
 export interface IRootState {
     auth: IAuthorizationState;
-    user: any;
+    user: IUserState;
 }
 
 export interface IAuthorizationState {
-    isAuth: boolean;
-    user: any;
+    token: string | null;
+}
+
+export interface IUserState {
+    currentUser: UserModel | null;
 }

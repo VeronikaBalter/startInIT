@@ -4,7 +4,7 @@
             <h3 class="mt-4">Select your photo  </h3>
             <v-file-input
                 v-model="file"
-                hide-input="true"
+                :hide-input="true"
                 prepend-icon="mdi-paperclip"
                 outlined
                 ref="file" 
@@ -22,7 +22,7 @@ import { Component,Vue, Watch, Prop,Ref} from 'vue-property-decorator';
 
 })
 export default class FilePreview extends Vue {
-    private file!:File;
+    private file:File | null = null;
     private imagePreview: any ='';
     
 

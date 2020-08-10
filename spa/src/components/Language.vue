@@ -24,9 +24,9 @@
 <script lang="ts">
 
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
-import languagesList from '../const/languages'
-import levelsList from '../const/languageLevel'
-import LanguageModel from '../model/LanguageModel'
+import languagesList from '../const/languages';
+import levelsList from '../const/languageLevel';
+import LanguageModel from '../models/LanguageModel';
 @Component({
 })
 export default class Language extends Vue {

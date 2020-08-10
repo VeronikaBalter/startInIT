@@ -1,6 +1,5 @@
 <template>
   <v-layout row id="singIn" align-center justify-center>
-    
     <v-flex md4 xs12>
       <v-card >
         <v-img src="@/assets/base.jpg" height="600px">
@@ -20,27 +19,38 @@
             v-on:click="redirect" 
             class="cyan--text">Sing In</v-btn>
         </h3>
-        <v-text-field v-model="name"
-          outlined 
-          label="First name and last name"
-          append-icon="mdi-account-outline"
-        ></v-text-field>
-        <v-text-field v-model="email"
-          outlined 
-          label="Email"
-          append-icon="mdi-at"
-        ></v-text-field>
-        <v-text-field v-model="password"
-          outlined 
-          label="Password"
-          append-icon="mdi-lock-outline"
-        ></v-text-field>
-        <v-text-field v-model="rPassword"
-          outlined 
-          label="Repeat password"
-          append-icon="mdi-lock-outline"
-        ></v-text-field>
-        <v-btn color="success" v-on:click="register">Sing Up</v-btn>
+        <v-form
+          ref="form"
+          v-model="valid"
+          :lazy-validation="false"
+        >
+          <v-text-field v-model="user.firstName"
+            outlined 
+            label="First name"
+            :rules="validation.firstName"
+            append-icon="mdi-account-outline"
+          ></v-text-field>
+          <v-text-field v-model="user.lastName"
+            outlined 
+            label="Last name"
+            :rules="validation.lastName"
+            append-icon="mdi-account-outline"
+          ></v-text-field>
+          <v-text-field v-model="user.email"
+            outlined 
+            label="Email"
+            :rules="validation.email"
+            append-icon="mdi-at"
+          ></v-text-field>
+          <v-text-field v-model="user.password"
+            outlined 
+            label="Password"
+            type="password"
+            :rules="validation.password"
+            append-icon="mdi-lock-outline"
+          ></v-text-field>
+        </v-form>
+        <v-btn color="success" v-on:click="register" :disabled="!valid">Sing Up</v-btn>
       </v-card>
     </v-flex>
   </v-layout>
@@ -48,50 +58,38 @@
 
 <script lang="ts">
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
+import { Getter, Mutation, Action, namespace } from 'vuex-class';
 import axios from 'axios';
-import UserRegisterModel from "../model/UserRegisterModel"
+import UserRegisterModel from "../models/user/UserRegisterModel"
 
-
+const authorizationStore = namespace('authorization');
 @Component({
 })
 export default class SingInSingUp extends Vue {
+  @authorizationStore.Action('register') private actionRegister!: (data: UserRegisterModel) => Promise<any> ;
+  
   private user:UserRegisterModel = new UserRegisterModel();
-  private repeatPassword = "";
-  get name(): string{
-    return this.user.firstName; //+" " + this.user.lastName;
+  private valid =true;
+  private validation = {
+    firstName:[ (v: string) => !!v || 'First name is required'],
+    lastName:[ (v: string) => !!v || 'Last name is required'],
+    email: [(v: string) => !!v || 'E-mail is required',
+      (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
+    password:[(v: string) => (v && v.length > 5) || 'Password must contain at least 6 characters',],
   }
-  set name(value: string){
-    this.user.firstName = value
-  }
-
-  get email(): string{
-    return this.user.email;
-  }
-  set email(value:string){
-    this.user.email = value;
-  }
-
-  get password(): string{
-    return this.user.password;
-  }
-  set password(value: string){
-      this.user.password = value;
-  }
-  get rPassword(): string{
-    return this.repeatPassword;
-  }
-  set rPassword(value: string){
-      this.repeatPassword = value;
-  }
-
-
 
   private redirect(){
-      this.$router.push({name: 'SingIn'});
+    this.$router.push({name: 'SingIn'});
   }
   
 
-  private register(): void {
+  private async register(): Promise<void> {
+    await this.actionRegister(this.user).then(()=>{
+      this.$router.push({name: 'Home'});
+    }).catch((error)=>{
+      console.log(error)
+      Vue.toasted.error('An error occurred during registration');
+    })
     
   }
 }

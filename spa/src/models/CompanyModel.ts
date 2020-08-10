@@ -1,4 +1,3 @@
-import User from './UserModel'
 export default class CompanyModel {
     public id = 0;
     public name = '';
@@ -11,5 +10,5 @@ export default class CompanyModel {
     public email = '';
     public stateStart = 0;
     public stateEnd = 0;
-    public owner = new User();
+    public ownerId = 0;
 }

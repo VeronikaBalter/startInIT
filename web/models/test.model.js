@@ -11,10 +11,18 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(10000)
       },
       photo:{
         type: Sequelize.STRING
+      },
+      hour:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      minutes:{
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
     });
   

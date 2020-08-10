@@ -10,7 +10,7 @@
         <file-preview/>
         <v-text-field v-model="company.name"
           outlined 
-          label="Job title"
+          label="Name"
           :rules="validation.title"
           append-icon="mdi-pencil"
         ></v-text-field>
@@ -72,19 +72,24 @@
 <script lang="ts">
 
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
+import { Getter, Mutation, Action, namespace } from 'vuex-class';
 import axios from 'axios';
-import company from '@/components/company.vue'
-import CompanyModel from '@/model/CompanyModel'
-import currenciesList from '@/const/currencies'
-import typesOfEmploymentList from '@/const/typesOfEmployment'
-import skillsList from '@/const/skills'
-import filePreview from '@/components/FilePreview.vue'
+import UserModel from '@/models/user/UserModel';
+import company from '@/components/company.vue';
+import CompanyModel from '@/models/CompanyModel';
+import currenciesList from '@/const/currencies';
+import typesOfEmploymentList from '@/const/typesOfEmployment';
+import skillsList from '@/const/skills';
+import filePreview from '@/components/FilePreview.vue';
+
+const userStore = namespace('user');
 @Component({
   components:{
     filePreview
   }
 })
 export default class CreateCompany extends Vue {
+  @userStore.Getter('getCurrentUser') private user!: UserModel;
   private company: CompanyModel = new CompanyModel;
   private currencies = [];
   private typesOfEmployment = [];
@@ -107,7 +112,14 @@ export default class CreateCompany extends Vue {
   }
 
   private async send(): Promise<void>{
-      debugger
+    try{
+      this.company.ownerId = this.user.id;
+      await axios.post('api/addCompany',this.company);
+      this.$router.push({name: 'PersonalAccount'});
+    }
+    catch(error){
+      Vue.toasted.error('Error while saving the company')
+    }
   } 
 }
 </script>

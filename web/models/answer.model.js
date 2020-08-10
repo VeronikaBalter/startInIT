@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
       text: {
         type: Sequelize.STRING
       },
+      photo: {
+        type: Sequelize.STRING
+      },
       right:{
         type: Sequelize.BOOLEAN
       },

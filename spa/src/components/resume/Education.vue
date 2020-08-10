@@ -26,7 +26,7 @@
           append-icon="mdi-pen"
         ></v-textarea>
         <v-autocomplete
-            v-model="educationLevelOfEducationId "
+            v-model="educationLevelOfEducationId"
             :items="levels"
             item-text="value"
             item-value="id"
@@ -93,8 +93,8 @@
 
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
 import moment from 'moment'
-import EducationModel from '../model/EducationModel';
-import levelsOfEducation from '../const/levelsOfEducation'
+import EducationModel from '@/models/resume/EducationModel';
+import levelsOfEducation from '@/const/levelsOfEducation'
 
 @Component({
 })

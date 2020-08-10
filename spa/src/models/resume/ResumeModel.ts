@@ -1,6 +1,6 @@
-import WorkExperienceModel from '../model/WorkExperienceModel'
-import LanguageModel from '../model/LanguageModel'
-import EducationModel from '../model/EducationModel'
+import WorkExperienceModel from './WorkExperienceModel'
+import LanguageModel from '../LanguageModel'
+import EducationModel from './EducationModel'
 
 export default class ResumeModel {
     public id = 0;
@@ -15,4 +15,5 @@ export default class ResumeModel {
     public works: WorkExperienceModel[]=[new WorkExperienceModel()];
     public languages: LanguageModel[]= [new LanguageModel()];
     public education: EducationModel[] = [new EducationModel()];
+    public isModerationPassed: boolean | null = null;
 }

@@ -6,8 +6,12 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         allowNull: false
       },
+      name:{
+        type: Sequelize.STRING,
+        allowNull: false,  
+      },
       about:{
-        type: Sequelize.STRING(1000),
+        type: Sequelize.STRING(10000),
         allowNull: false,  
       },
       salaryStart:{
@@ -16,6 +20,12 @@ module.exports = (sequelize, Sequelize) => {
       salaryEnd:{
         type: Sequelize.INTEGER
       },
+      interviewSalary:{
+        type: Sequelize.BOOLEAN
+      },
+      isModerationPassed:{
+        type: Sequelize.BOOLEAN
+      }
       
       
     });

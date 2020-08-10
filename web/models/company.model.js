@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Company = sequelize.define("Companies", {
+    const Company = sequelize.define("companies", {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -33,14 +33,13 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false
       },
       stateStart:{
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       stateEnd:{
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       }
 
       
     });
-  
     return Company;
   };

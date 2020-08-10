@@ -1,5 +1,6 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import Vue from 'vue';
+import VueRouter, { RouteConfig } from 'vue-router';
+import store from '@/store/index';
 
 Vue.use(VueRouter)
 
@@ -7,6 +8,9 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
+    meta: {
+      public: true,
+    },
     component: () => import('@/views/Home.vue')
   },
   {
@@ -26,12 +30,37 @@ Vue.use(VueRouter)
     component: () => import('@/views/SingUp.vue')
   },
   {
+    path: '/moderation',
+    name: 'Moderation',
+    meta: {
+      public: false,
+      isAdmin: true,
+    },
+    component: () => import('@/views/Moderation.vue')
+  },
+  {
     path: '/vacancies',
     name: 'Vacancies',
     meta: {
       public: true,
     },
-    component: () => import('@/views/Vacancies.vue')
+    component: () => import('@/views/vacancy/Vacancies.vue')
+  },
+  {
+    path: '/myVacancies',
+    name: 'MyVacancies',
+    meta: {
+      public: false,
+    },
+    component: () => import('@/views/vacancy/MyVacancies.vue')
+  },
+  {
+    path: '/vacancy/:id',
+    name: 'VacancyPage',
+    meta: {
+      public: true,
+    },
+    component: () => import('@/views/vacancy/VacancyPage.vue')
   },
   {
     path: '/resumes',
@@ -39,38 +68,79 @@ Vue.use(VueRouter)
     meta: {
       public: true,
     },
-    component: () => import('@/views/Resumes.vue')
+    component: () => import('@/views/resume/Resumes.vue')
+  },
+  {
+    path: '/myResumes',
+    name: 'MyResumes',
+    meta: {
+      public: false,
+    },
+    component: () => import('@/views/resume/MyResumes.vue')
   },
   {
     path: '/createVacancy',
     name: 'CreateVacancy',
     meta: {
-      public: true,
+      public: false,
     },
-    component: () => import('@/views/create/CreateVacancy.vue')
+    component: () => import('@/views/vacancy/CreateVacancy.vue')
   },
+  
   {
     path: '/createResume',
     name: 'CreateResume',
     meta: {
-      public: true,
+      public: false,
     },
-    component: () => import('@/views/create/CreateResume.vue')
+    component: () => import('@/views/resume/CreateResume.vue')
   },
   {
     path: '/createCompany',
     name: 'CreateCompany',
     meta: {
-      public: true,
+      public: false,
     },
-    component: () => import('@/views/create/CreateCompany.vue')
+    component: () => import('@/views/company/CreateCompany.vue')
+  },
+  {
+    path: '/personalAccount',
+    name: 'PersonalAccount',
+    meta: {
+      public: false,
+    },
+    component: () => import('@/views/PersonalAccount.vue')
+  },
+  {
+    path: '/createTest',
+    name: 'CreateTest',
+    meta: {
+      public: false,
+    },
+    component: () => import('@/views/test/CreateTest.vue')
+  },
+  {
+    path: '/tests',
+    name: 'Tests',
+    meta: {
+      public: false,
+    },
+    component: () => import('@/views/test/Tests.vue')
+  },
+  {
+    path: '/test/:id',
+    name: 'Test',
+    meta: {
+      public: false,
+    },
+    component: () => import('@/views/test/TestPage.vue')
   },
   {
     path: '*', 
-    redirect: '/404'
+    redirect: '/pageNotFound'
   },
   {
-    path: '/404',
+    path: '/pageNotFound',
     name: 'PageNotFound',
     meta: {
         public: true,
@@ -85,4 +155,28 @@ const router = new VueRouter({
   routes
 })
 
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.length > 0) {
+    if (!to.meta.public ){
+      if(store.getters['authorization/isAuth'])
+      {
+        if(store.getters['user/getCurrentUser'] == null)
+          store.dispatch('user/getCurrentUser');
+
+        next();
+      }
+      else{
+        next({ name: 'SingIn'})
+      } 
+    }else {
+      next();
+    }
+  } else {
+      next({
+          path: '/pageNotFound',
+          params: { nextUrl: '/pageNotFound' },
+      });
+  }
+});
 export default router

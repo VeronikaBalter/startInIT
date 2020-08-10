@@ -87,7 +87,7 @@
 
 import { Component,Vue, Watch, Prop} from 'vue-property-decorator';
 import moment from 'moment'
-import WorkExperienceModel from '../model/WorkExperienceModel';
+import WorkExperienceModel from '@/models/resume/WorkExperienceModel';
 
 @Component({
 })

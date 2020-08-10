@@ -40,6 +40,9 @@ db.skill = require("../models/skill.model.js")(sequelize, Sequelize);
 db.workExperience = require("../models/workExperience.model.js")(sequelize, Sequelize);
 db.typeOfEmployment = require("../models/typeOfEmployment.model.js")(sequelize, Sequelize);
 db.vacancy = require("../models/vacancy.model.js")(sequelize, Sequelize);
+db.currency = require("../models/currency.model.js")(sequelize, Sequelize);
+db.languageLevel = require("../models/languageLevel.model.js")(sequelize, Sequelize);
+db.resumeLanguageAndLevel = require("./resumeLanguageAndLevel.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "userRoles",
@@ -57,7 +60,7 @@ db.test.belongsTo(db.language, {
     foreignKey: "languageId",
     as: "language",
 });
-db.user.hasOne(db.test, {as: 'test', foreignKey : 'authorId'});
+
 
 db.level.hasMany(db.test, { as: "test" });
 db.test.belongsTo(db.level, {
@@ -71,14 +74,25 @@ db.resume.belongsTo(db.level, {
     as: "level",
 });
 
+db.currency.hasMany(db.resume, { as: "resume" });
+db.resume.belongsTo(db.currency, {
+    foreignKey: "currencyId",
+    as: "currency",
+});
 
-db.test.hasMany(db.question, { as: "question" });
+db.currency.hasMany(db.vacancy, { as: "vacancy" });
+db.vacancy.belongsTo(db.currency, {
+    foreignKey: "currencyId",
+    as: "currency",
+});
+
+db.test.hasMany(db.question, { as: "questions" });
 db.question.belongsTo(db.test, {
     foreignKey: "testId",
     as: "test",
 }); 
 
-db.question.hasMany(db.answer, { as: "answer" });
+db.question.hasMany(db.answer, { as: "answers" });
 db.answer.belongsTo(db.question, {
     foreignKey: "questionId",
     as: "question",
@@ -86,9 +100,11 @@ db.answer.belongsTo(db.question, {
 
 db.user.hasOne(db.company, {as: 'company', foreignKey : 'ownerId'});
 
-db.user.hasOne(db.userInfo, {as: 'userInfo', foreignKey : 'userId'});
-
 db.user.hasOne(db.resume, {as: 'resume', foreignKey : 'userId'});
+
+db.language.hasOne(db.resumeLanguageAndLevel, {as: 'resumeLanguageAndLevel', foreignKey : 'languageId'});
+
+db.level.hasOne(db.resumeLanguageAndLevel, {as: 'resumeLanguageAndLevel', foreignKey : 'levelId'});
 
 db.education.belongsToMany(db.resume, {
     through: "resumeEducation",
@@ -110,22 +126,46 @@ db.education.belongsTo(db.levelOfEducation, {
 db.skill.belongsToMany(db.test, {
     through: "testSkill",
     foreignKey: "skillId",
-    otherKey: "testId"
+    otherKey: "testId",
+    as: 'testSkills'
 });
 db.test.belongsToMany(db.skill, {
     through: "testSkill",
     foreignKey: "testId",
+    otherKey: "skillId",
+    as: 'testSkills'
+});
+
+db.skill.belongsToMany(db.test, {
+    through: "vacancySkill",
+    foreignKey: "skillId",
+    otherKey: "vacancyId"
+});
+db.test.belongsToMany(db.skill, {
+    through: "vacancySkill",
+    foreignKey: "vacancyId",
     otherKey: "skillId"
 });
 
-db.resume.belongsToMany(db.language, {
+db.skill.belongsToMany(db.test, {
+    through: "resumeSkill",
+    foreignKey: "skillId",
+    otherKey: "resumeId"
+});
+db.resume.belongsToMany(db.skill, {
+    through: "resumeSkill",
+    foreignKey: "resumeId",
+    otherKey: "skillId"
+});
+
+db.resume.belongsToMany(db.resumeLanguageAndLevel, {
     through: "resumeLanguage",
     foreignKey: "resumeId",
-    otherKey: "languageId"
+    otherKey: "resumeLanguageAndLevelId"
 });
-db.language.belongsToMany(db.resume, {
+db.resumeLanguageAndLevel.belongsToMany(db.resume, {
     through: "resumeLanguage",
-    foreignKey: "languageId",
+    foreignKey: "resumeLanguageAndLevelId",
     otherKey: "resumeId"
 });
 
@@ -150,15 +190,23 @@ db.resume.belongsTo(db.typeOfEmployment, {
     foreignKey: "typesOfEmploymentId",
     as: "typeOfEmployment",
 });    
-db.company.hasOne(db.vacancy, {as: 'vacancy', foreignKey : 'companyId'});
 
-db.ROLES = ["user", "admin"];
-// db.LANGUAGES = ["English", "Russian", "Ukrainian", "French", "Spanish", "Arab", "Portuguese", "German", "Chinese"];
-// db.LEVELS = ["Junior","Middle", "Senior"];
-// db.LEVELSOFEDUCATION = ["Higher", "Incomplete higher","Specialized secondary","Secondary"];
-// db.SLIKKS = ["A.NET","A-0 System","A+","ABAP","ABC","ABC ALGOL","ACC","Accent","Ace DASL (Distributed Application Specification Language)","Action!",
-//     "ActionScript","Actor","Ada","Adenine","Agda","Agilent VEE","Agora","AIMMS","Aldor","Alef","ALF","ALGOL 58","ALGOL 60","ALGOL 68","ALGOL W","Alice",
-//     "Alma-0","AmbientTalk","Amiga E","AMOS","AMPL","AngelScript","Apex","APL","App Inventor for Android's visual block language","AppleScript","APT",
-//     "Arc","ARexx","Argus","Assembly language","AutoHotkey","AutoIt","AutoLISP / Visual LISP","Averest","AWK","Axum"];
+db.company.hasMany(db.vacancy, { as: "vacancy" });
+db.vacancy.belongsTo(db.company, {
+    foreignKey: "companyId",
+    as: "company",
+});
+
+db.user.hasMany(db.test, { as: "test" });
+db.test.belongsTo(db.user, {
+    foreignKey: "userId",
+    as: "user",
+});
+
+db.user.hasMany(db.userInfo, { as: "userInfo" });
+db.userInfo.belongsTo(db.user, {
+    foreignKey: "userId",
+    as: "user",
+});
 
 module.exports = db;
